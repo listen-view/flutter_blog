@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
-import 'pages/Login/Login.dart';
+import 'package:material_app/pages/Login/Login.dart';
+import 'pages/Register/Register.dart';
 import 'pages/tags/Tags.dart';
 
 void main() {
   runApp(const MyApp());
 }
+final routeList = {
+  '/tags': (context) => const Tags(),
+  '/sign_up': (context)=> const Register(),
+  '/': (context) => const Login(),
+};
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -14,11 +20,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      routes: {
-        '/tags': (context) => const Tags(),
-        '/login': (context) => const Login(),
+      onGenerateRoute: (RouteSettings settings){
+        final pageBuilder = routeList[settings.name];
+        return MaterialPageRoute(builder: (context){
+          return pageBuilder!(context);
+        });
       },
-      home: const Scaffold(body: Tags()),
     );
   }
 }

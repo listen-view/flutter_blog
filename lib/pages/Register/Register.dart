@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:material_app/api/test.dart';
+import '../../api/test.dart';
 
-class Login extends StatefulWidget {
-  const Login({Key? key}) : super(key: key);
+class Register extends StatefulWidget {
+  const Register({Key? key}) : super(key: key);
 
   @override
-  _loginState createState()=> _loginState();
+  _RegisterState createState() => _RegisterState();
 }
 
-class _loginState extends State<Login> {
-
+class _RegisterState extends State<Register> {
   final _formKey = GlobalKey<FormState>();
   final _formData = {
-    'username': '',
+    'userName': '',
+    'nickName': '',
+    'email': '',
     'password': ''
   };
   void _submit() {
     if (_formKey.currentState!.validate()) {
-      TestApi.login(_formData).then((value) {
+      TestApi.generateUser(_formData).then((value) {
         ScaffoldMessenger.of(context)
             .showSnackBar(const SnackBar(content: Text('register successs!')));
       });
@@ -37,7 +38,7 @@ class _loginState extends State<Login> {
         },
         obscureText: hintText == 'password' ? true : false,
         decoration:
-        InputDecoration(border: InputBorder.none, hintText: hintText),
+            InputDecoration(border: InputBorder.none, hintText: hintText),
         validator: (value) {
           if (value == null || value.isEmpty) {
             return 'content is null';
@@ -51,6 +52,7 @@ class _loginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Container(
           color: const Color(0xffEAFFF8),
           width: double.infinity,
@@ -75,11 +77,13 @@ class _loginState extends State<Login> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
-                          '登录',
+                          '注册',
                           style: TextStyle(
                               fontWeight: FontWeight.w600, fontSize: 26),
                         ),
-                        _generateInput('username'),
+                        _generateInput('userName'),
+                        _generateInput('nickName'),
+                        _generateInput('email'),
                         _generateInput('password'),
                         Container(
                           margin: const EdgeInsets.only(top: 15),
@@ -99,13 +103,13 @@ class _loginState extends State<Login> {
                 Container(
                   margin: const EdgeInsets.only(top: 30),
                   child: Column(children: [
-                    const Text('还没有账号？'),
+                    const Text('已经有账号啦？'),
                     InkWell(
                       onTap: () {
-                        Navigator.pushNamed(context, '/sign_up');
+                        Navigator.pushNamed(context, '/');
                       },
                       child: const Text(
-                        '去注册',
+                        '登录',
                         style: TextStyle(color: Color(0xee01B27D)),
                       ),
                     )
