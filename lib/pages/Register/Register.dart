@@ -20,7 +20,8 @@ class _RegisterState extends State<Register> {
     if (_formKey.currentState!.validate()) {
       TestApi.generateUser(_formData).then((value) {
         ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text('register successs!')));
+            .showSnackBar(const SnackBar(content: Text('register success!')));
+        Navigator.pushNamed(context, '/login');
       });
     }
   }
@@ -106,7 +107,7 @@ class _RegisterState extends State<Register> {
                     const Text('已经有账号啦？'),
                     InkWell(
                       onTap: () {
-                        Navigator.pushNamed(context, '/');
+                        Navigator.pushNamed(context, '/login');
                       },
                       child: const Text(
                         '登录',

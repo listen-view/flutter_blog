@@ -75,7 +75,7 @@ class _TagsState extends State<Tags> {
                       '保存兴趣',
                       style: TextStyle(color: Colors.black),
                     )),
-              )
+              ),
             ],
           )),
     );

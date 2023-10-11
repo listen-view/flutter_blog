@@ -1,26 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:material_app/api/test.dart';
+import 'package:material_app/utils/storage.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
 
   @override
-  _loginState createState()=> _loginState();
+  _loginState createState() => _loginState();
 }
 
 class _loginState extends State<Login> {
-
   final _formKey = GlobalKey<FormState>();
-  final _formData = {
-    'username': '',
-    'password': ''
-  };
-  void _submit() {
+  final _formData = {'username': '', 'password': ''};
+  void _submit() async {
     if (_formKey.currentState!.validate()) {
-      TestApi.login(_formData).then((value) {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text('register successs!')));
-      });
+      final saveContext = ScaffoldMessenger.of(context);
+      final routeContext = Navigator.of(context);
+
+      final data = await TestApi.login(_formData);
+      await LocalStorage.set('access_token', data['data']['access_token']);
+
+      saveContext.showSnackBar(const SnackBar(content: Text('login success!')));
+      routeContext.pushNamed('/tags');
     }
   }
 
@@ -37,7 +38,7 @@ class _loginState extends State<Login> {
         },
         obscureText: hintText == 'password' ? true : false,
         decoration:
-        InputDecoration(border: InputBorder.none, hintText: hintText),
+            InputDecoration(border: InputBorder.none, hintText: hintText),
         validator: (value) {
           if (value == null || value.isEmpty) {
             return 'content is null';
@@ -102,7 +103,7 @@ class _loginState extends State<Login> {
                     const Text('还没有账号？'),
                     InkWell(
                       onTap: () {
-                        Navigator.pushNamed(context, '/sign_up');
+                        Navigator.pushNamed(context, '/');
                       },
                       child: const Text(
                         '去注册',

@@ -1,16 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:material_app/pages/Login/Login.dart';
-import 'pages/Register/Register.dart';
-import 'pages/tags/Tags.dart';
+import 'package:material_app/router.dart';
+import 'package:material_app/utils/storage.dart';
 
 void main() {
   runApp(const MyApp());
 }
-final routeList = {
-  '/tags': (context) => const Tags(),
-  '/sign_up': (context)=> const Register(),
-  '/': (context) => const Login(),
-};
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -20,10 +14,19 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      onGenerateRoute: (RouteSettings settings){
-        final pageBuilder = routeList[settings.name];
-        return MaterialPageRoute(builder: (context){
-          return pageBuilder!(context);
+      navigatorObservers: [RouterGuard()],
+      onGenerateRoute: (RouteSettings settings) {
+        return MaterialPageRoute(builder: (context) {
+          return FutureBuilder(
+              future: LocalStorage.get('access_token'),
+              builder: (context, snapshot) {
+                String? routeName = settings.name;
+                if (snapshot.connectionState == ConnectionState.done &&
+                    snapshot.data != null) {
+                  routeName = '/home';
+                }
+                return routeList[routeName]!(context);
+              });
         });
       },
     );
