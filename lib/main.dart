@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
                 String? routeName = settings.name;
                 if (snapshot.connectionState == ConnectionState.done &&
                     snapshot.data != null) {
-                  routeName = '/home';
+                  routeName = '/categories';
                 }
                 return routeList[routeName]!(context);
               });
