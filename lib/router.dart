@@ -4,13 +4,16 @@ import 'package:material_app/pages/Login/Login.dart';
 import 'package:material_app/pages/categories/categories.dart';
 import 'pages/Register/Register.dart';
 import 'pages/tags/Tags.dart';
+import 'pages/category_detail/category_detail.dart';
 
 final routeList = {
   '/tags': (context) => const Tags(),
   '/login': (context) => const Login(),
   '/home': (context) => const Home(),
-  '/': (context) => const Register(),
+  '/': (context) => const Home(),
+  '/register': (context) => const Register(),
   '/categories': (context) => const Categories(),
+  '/category_detail': (context) => const CategoryDetail(),
 };
 
 class RouterGuard extends NavigatorObserver {

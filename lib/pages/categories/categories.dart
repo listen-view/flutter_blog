@@ -10,7 +10,7 @@ class Categories extends StatefulWidget {
 
 class CategoriesState extends State<Categories> {
   void _goClassList() {
-    Navigator.of(context).pushNamed('/category_list');
+    Navigator.pushNamed(context, '/category_detail');
   }
 
   @override
@@ -42,7 +42,7 @@ class CategoriesState extends State<Categories> {
                                 image: DecorationImage(
                                     fit: BoxFit.cover,
                                     image: NetworkImage(
-                                        'https://i2.hdslb.com/bfs/archive/c7c503d7aa81205474503b0a3e79b312bb1406ff.jpg@440w_276h_1c_!web-space-index-topvideo.webp'))),
+                                        'https://img2.baidu.com/it/u=4155793158,2331455287&fm=253&fmt=auto&app=138&f=JPEG?w=750&h=500'))),
                             padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
                             child: const Column(
                               mainAxisAlignment: MainAxisAlignment.end,
