@@ -10,10 +10,22 @@ class bottomBar extends StatefulWidget {
 class bottomBarState extends State<bottomBar> {
   var tabIndex = 0;
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    barList.asMap().forEach((i, element) {
+      if (element['path'] == ModalRoute.of(context)?.settings.name) {
+        setState(() {
+          tabIndex = i;
+        });
+      }
+    });
+  }
+
   final barList = [
     {'icon': Icons.home, 'path': '/home', 'title': '首页'},
     {'icon': Icons.category, 'path': '/categories', 'title': '分类'},
-    {'icon': Icons.list, 'path': '/list', 'title': '列表'},
+    {'icon': Icons.list, 'path': '/common_list', 'title': '列表'},
     {'icon': Icons.settings, 'path': '/settings', 'title': '设置'}
   ];
 

@@ -15,6 +15,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       navigatorObservers: [RouterGuard()],
+      routes: routeList,
       onGenerateRoute: (RouteSettings settings) {
         final loginAndRegister = ['/login', '/register'];
 

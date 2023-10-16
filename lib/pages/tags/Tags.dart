@@ -51,14 +51,12 @@ class _TagsState extends State<Tags> {
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(25),
                                 border:
-                                Border.all(color: Colors.white, width: 1)),
+                                    Border.all(color: Colors.white, width: 1)),
                             padding: const EdgeInsets.fromLTRB(16, 10, 18, 10),
                             child: Text(
                               item,
                               style: const TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.white
-                              ),
+                                  fontSize: 12, color: Colors.white),
                             ));
                       }).toList(),
                     )),
@@ -76,6 +74,19 @@ class _TagsState extends State<Tags> {
                       style: TextStyle(color: Colors.black),
                     )),
               ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, '/home');
+                },
+                child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        '暂时不选，跳过',
+                        style: TextStyle(color: Colors.white),
+                      )
+                    ]),
+              )
             ],
           )),
     );

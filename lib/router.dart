@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:material_app/pages/Home/Home.dart';
 import 'package:material_app/pages/Login/Login.dart';
+import 'package:material_app/pages/common_list/common_list.dart';
 import 'package:material_app/pages/categories/categories.dart';
 import 'pages/Register/Register.dart';
 import 'pages/tags/Tags.dart';
@@ -14,6 +15,7 @@ final routeList = {
   '/register': (context) => const Register(),
   '/categories': (context) => const Categories(),
   '/category_detail': (context) => const CategoryDetail(),
+  '/common_list': (context) => const CommonList()
 };
 
 class RouterGuard extends NavigatorObserver {
