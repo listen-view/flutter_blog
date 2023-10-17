@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:material_app/pages/Home/Home.dart';
 import 'package:material_app/pages/Login/Login.dart';
+import 'package:material_app/pages/article_detail/article_detail.dart';
 import 'package:material_app/pages/common_list/common_list.dart';
 import 'package:material_app/pages/categories/categories.dart';
+import 'package:material_app/pages/post_article/post_article.dart';
+import 'package:material_app/pages/user_profile/user_profile.dart';
 import 'pages/Register/Register.dart';
 import 'pages/tags/Tags.dart';
 import 'pages/category_detail/category_detail.dart';
@@ -13,9 +16,12 @@ final routeList = {
   '/home': (context) => const Home(),
   '/': (context) => const Home(),
   '/register': (context) => const Register(),
+  '/user_profile': (context) => const UserProfile(),
   '/categories': (context) => const Categories(),
+  '/post_article': (context) => const PostArticle(),
   '/category_detail': (context) => const CategoryDetail(),
-  '/common_list': (context) => const CommonList()
+  '/article_detail': (context) => const ArticleDetail(),
+  '/common_list': (context) => const CommonList(),
 };
 
 class RouterGuard extends NavigatorObserver {

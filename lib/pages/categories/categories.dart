@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:material_app/widgets/bottom_bar.dart';
 import 'package:material_app/widgets/category_list.dart';
+import 'package:material_app/widgets/main_page_wrapper.dart';
 import 'package:material_app/widgets/top_search_header.dart';
 
 class Categories extends StatefulWidget {
@@ -17,8 +17,8 @@ class CategoriesState extends State<Categories> {
 
   @override
   Widget build(context) {
-    return Scaffold(
-      body: Container(
+    return MainPageWrapper(
+      child: Container(
         padding: const EdgeInsets.fromLTRB(20, 50, 20, 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -39,7 +39,6 @@ class CategoriesState extends State<Categories> {
           ],
         ),
       ),
-      bottomNavigationBar: const bottomBar(),
     );
   }
 }

@@ -37,6 +37,7 @@ dependencies:
   dio: ^5.3.3
   shared_preferences: ^2.2.2
   card_swiper: ^3.0.1
+  flutter_quill: ^7.4.11
 
 dev_dependencies:
   flutter_test:

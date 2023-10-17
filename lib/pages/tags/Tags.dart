@@ -78,14 +78,17 @@ class _TagsState extends State<Tags> {
                 onTap: () {
                   Navigator.pushNamed(context, '/home');
                 },
-                child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        '暂时不选，跳过',
-                        style: TextStyle(color: Colors.white),
-                      )
-                    ]),
+                child: const Padding(
+                  padding: EdgeInsets.only(top: 20),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          '暂时不选，跳过',
+                          style: TextStyle(color: Colors.white),
+                        )
+                      ]),
+                ),
               )
             ],
           )),

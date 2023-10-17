@@ -3,8 +3,8 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:card_swiper/card_swiper.dart';
-import 'package:material_app/widgets/bottom_bar.dart';
 import 'package:material_app/widgets/category_list.dart';
+import 'package:material_app/widgets/main_page_wrapper.dart';
 import 'package:material_app/widgets/top_search_header.dart';
 
 class Home extends StatefulWidget {
@@ -50,9 +50,8 @@ class _homeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      bottomNavigationBar: const bottomBar(),
-      body: Container(
+    return MainPageWrapper(
+      child: Container(
           width: double.infinity,
           padding: const EdgeInsets.fromLTRB(20, 40, 20, 0),
           child: ListView(
