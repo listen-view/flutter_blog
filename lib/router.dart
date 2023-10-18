@@ -11,17 +11,18 @@ import 'pages/tags/Tags.dart';
 import 'pages/category_detail/category_detail.dart';
 
 final routeList = {
-  '/tags': (context) => const Tags(),
-  '/login': (context) => const Login(),
-  '/home': (context) => const Home(),
-  '/': (context) => const Home(),
-  '/register': (context) => const Register(),
-  '/user_profile': (context) => const UserProfile(),
-  '/categories': (context) => const Categories(),
-  '/post_article': (context) => const PostArticle(),
-  '/category_detail': (context) => const CategoryDetail(),
-  '/article_detail': (context) => const ArticleDetail(),
-  '/common_list': (context) => const CommonList(),
+  '/tags': (context, {arguments}) => const Tags(),
+  '/login': (context, {arguments}) => const Login(),
+  '/home': (context, {arguments}) => const Home(),
+  '/': (context, {arguments}) => const Home(),
+  '/register': (context, {arguments}) => const Register(),
+  '/user_profile': (context, {arguments}) => const UserProfile(),
+  '/categories': (context, {arguments}) => const Categories(),
+  '/post_article': (context, {arguments}) => const PostArticle(),
+  '/category_detail': (context, {arguments}) => const CategoryDetail(),
+  '/article_detail': (context, {arguments}) =>
+      ArticleDetail(arguments: arguments),
+  '/common_list': (context, {arguments}) => const CommonList(),
 };
 
 class RouterGuard extends NavigatorObserver {

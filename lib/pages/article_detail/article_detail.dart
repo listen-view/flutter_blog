@@ -1,16 +1,32 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:material_app/api/test.dart';
+import 'package:flutter_quill/flutter_quill.dart' as quill;
 
 class ArticleDetail extends StatefulWidget {
-  const ArticleDetail({Key? key}) : super(key: key);
+  final arguments;
+  const ArticleDetail({Key? key, this.arguments}) : super(key: key);
 
   @override
   _ArticleDetailState createState() => _ArticleDetailState();
 }
 
 class _ArticleDetailState extends State<ArticleDetail> {
-  var articleBody = '''
-  据知名媒体人滨岩透露，巴塞罗那球队的超级巨星梅西本月将获得他个人职业生涯的第8座金球奖随后他将在下个月造访中国成都并参加足球比赛。这无疑给中国的梅西球迷带来了双重喜悦，他们既能见证这位足球界的球王加冕金球奖的时刻，又可以在中国看到梅西的身影。滨岩表示，梅西将会穿着粉色球衣，在10月30日与法国巴黎队比赛完后横跨到中国，和成都蓉城进行一场足球盛宴。
-''';
+  var articleMsg = {};
+  final quill.QuillController _controller = quill.QuillController.basic();
+
+  @override
+  void initState() {
+    super.initState();
+    TestApi.getArticleDetail({'id': widget.arguments['id']}).then((value) {
+      setState(() {
+        articleMsg = value['data'];
+        _controller.document =
+            quill.Document.fromJson(jsonDecode(articleMsg['content']));
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,36 +40,40 @@ class _ArticleDetailState extends State<ArticleDetail> {
         ),
         centerTitle: true,
         backgroundColor: Colors.white,
-        title: const Text('文章详情'),
+        title: Text(articleMsg['title'] ?? ''),
         titleTextStyle: const TextStyle(color: Colors.black, fontSize: 16),
       ),
-      body: SingleChildScrollView(
-        child: Column(children: [
-          Container(
-            width: double.infinity,
-            height: 250,
-            decoration: const BoxDecoration(
-                image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: NetworkImage(
-                      'https://img0.baidu.com/it/u=3684566156,2414568464&fm=253&fmt=auto&app=120&f=JPEG?w=1280&h=800',
-                    ))),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(20),
-            child: Column(children: [
-              Container(
-                margin: const EdgeInsets.only(bottom: 20),
-                child: const Text(
-                  '恭喜梅西！恭喜中国球迷！曝梅西加冕第8座金球奖，下月来华踢球',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+      body: articleMsg.isNotEmpty
+          ? SingleChildScrollView(
+              child: Column(children: [
+                Container(
+                  width: double.infinity,
+                  height: 250,
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: NetworkImage(articleMsg['cover']))),
                 ),
-              ),
-              RichText(text: TextSpan(text: articleBody))
-            ]),
-          )
-        ]),
-      ),
+                Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(children: [
+                    Container(
+                      margin: const EdgeInsets.only(bottom: 20),
+                      child: Text(
+                        articleMsg['author'],
+                        style: const TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    quill.QuillEditor.basic(
+                      controller: _controller,
+                      readOnly: true,
+                    )
+                  ]),
+                )
+              ]),
+            )
+          : null,
     );
   }
 }

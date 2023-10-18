@@ -1,13 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:material_app/api/test.dart';
 
 class ArticleList extends StatefulWidget {
-  const ArticleList({Key? key}) : super(key: key);
+  final String? category;
+  const ArticleList({Key? key, this.category}) : super(key: key);
 
   @override
   _ArticleListState createState() => _ArticleListState();
 }
 
 class _ArticleListState extends State<ArticleList> {
+  var articleList = [];
+
+  @override
+  void initState() {
+    super.initState();
+
+    TestApi.getArticleList({'tag': widget.category}).then((value) {
+      print(value);
+      setState(() {
+        articleList.addAll(value['data']);
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -15,38 +32,43 @@ class _ArticleListState extends State<ArticleList> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Padding(
-            padding: EdgeInsets.only(bottom: 20),
-            child: Text('travel',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 20),
+            child: Text(widget.category ?? '全部',
+                style:
+                    const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
           ),
           Expanded(
               flex: 1,
               child: ListView.builder(
-                  itemCount: 10,
+                  itemCount: articleList.length,
                   itemBuilder: (context, index) {
+                    final item = articleList[index];
+
                     return GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context, '/article_detail');
+                        Navigator.pushNamed(context, '/article_detail',
+                            arguments: {'id': item['id']});
                       },
                       child: ListTile(
                         contentPadding: const EdgeInsets.only(bottom: 20),
                         leading: ClipRRect(
                             borderRadius: BorderRadius.circular(12),
                             child: Image.network(
-                              'https://img2.baidu.com/it/u=4155793158,2331455287&fm=253&fmt=auto&app=138&f=JPEG?w=750&h=500',
+                              item['cover'],
                               width: 97,
                               height: 97,
                             )),
-                        title: const Column(
+                        title: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('travel',
-                                style: TextStyle(
+                            Text((item['tag'] as List).join(','),
+                                style: const TextStyle(
                                     color: Colors.grey, fontSize: 12)),
                             Text(
-                              '安装和环境配置',
-                              style: TextStyle(fontSize: 14),
+                              item['title'],
+                              maxLines: 1,
+                              style: const TextStyle(fontSize: 14),
                             ),
                           ],
                         ),
@@ -61,8 +83,12 @@ class _ArticleListState extends State<ArticleList> {
                                 width: 27,
                               ),
                             ),
-                            const Text('tom'),
-                            const Text('7 minutes before')
+                            Container(
+                              margin: const EdgeInsets.fromLTRB(10, 0, 20, 0),
+                              child: Text(item['author']),
+                            ),
+                            Text(DateFormat('yyyy年MM月dd日 HH:mm')
+                                .format(DateTime.parse(item['updateTime'])))
                           ],
                         ),
                       ),

@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:material_app/api/common_interceptor.dart';
 
 class HttpRequest {
   BaseOptions options;
@@ -6,6 +7,7 @@ class HttpRequest {
 
   HttpRequest(this.options) {
     dioIns = Dio(options);
+    dioIns.interceptors.add(CommonInterceptor());
   }
 
   Future<dynamic> get(String url, Map<String, dynamic> query) async {

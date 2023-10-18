@@ -38,6 +38,7 @@ dependencies:
   shared_preferences: ^2.2.2
   card_swiper: ^3.0.1
   flutter_quill: ^7.4.11
+  intl: ^0.18.1
 
 dev_dependencies:
   flutter_test:

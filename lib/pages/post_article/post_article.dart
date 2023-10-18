@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
+import 'package:material_app/api/test.dart';
 
 class PostArticle extends StatefulWidget {
   const PostArticle({Key? key}) : super(key: key);
@@ -10,7 +13,12 @@ class PostArticle extends StatefulWidget {
 
 class _PostArticleState extends State<PostArticle> {
   final _formKey = GlobalKey<FormState>();
-  final _formData = {'title': '', 'description': '', 'body': '', 'picture': ''};
+  final _formData = {
+    'title': '',
+    'content': [],
+    'tags': ['travel'],
+    'cover': ''
+  };
   final quill.QuillController _controller = quill.QuillController.basic();
 
   Widget _generateInput(String hintText) {
@@ -24,7 +32,6 @@ class _PostArticleState extends State<PostArticle> {
         onChanged: (value) {
           _formData[hintText] = value;
         },
-        obscureText: hintText == 'password' ? true : false,
         decoration:
             InputDecoration(border: InputBorder.none, hintText: hintText),
         validator: (value) {
@@ -39,7 +46,11 @@ class _PostArticleState extends State<PostArticle> {
 
   void _submit() {
     if (_formKey.currentState!.validate()) {
-      print('pass');
+      _formData['content'] =
+          jsonEncode(_controller.document.toDelta().toJson());
+      TestApi.postArticle(_formData).then((value) {
+        Navigator.pop(context);
+      });
     }
   }
 
@@ -69,9 +80,7 @@ class _PostArticleState extends State<PostArticle> {
                 key: _formKey,
                 child: ListView(children: [
                   _generateInput('title'),
-                  _generateInput('description'),
-                  _generateInput('picture'),
-                  _generateInput('body'),
+                  _generateInput('cover'),
                   quill.QuillToolbar.basic(controller: _controller),
                   SizedBox(
                     height: 500,
