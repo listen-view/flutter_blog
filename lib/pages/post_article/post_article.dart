@@ -13,12 +13,7 @@ class PostArticle extends StatefulWidget {
 
 class _PostArticleState extends State<PostArticle> {
   final _formKey = GlobalKey<FormState>();
-  final _formData = {
-    'title': '',
-    'content': [],
-    'tags': ['travel'],
-    'cover': ''
-  };
+  final _formData = {'title': '', 'content': [], 'tags': '', 'cover': ''};
   final quill.QuillController _controller = quill.QuillController.basic();
 
   Widget _generateInput(String hintText) {
@@ -81,6 +76,7 @@ class _PostArticleState extends State<PostArticle> {
                 child: ListView(children: [
                   _generateInput('title'),
                   _generateInput('cover'),
+                  _generateInput('tags'),
                   quill.QuillToolbar.basic(controller: _controller),
                   SizedBox(
                     height: 500,

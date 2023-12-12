@@ -11,6 +11,8 @@ class CommonList extends StatefulWidget {
 }
 
 class _CommonListState extends State<CommonList> {
+  String keyword = '';
+
   @override
   Widget build(BuildContext context) {
     return MainPageWrapper(
@@ -18,9 +20,18 @@ class _CommonListState extends State<CommonList> {
         children: [
           Container(
             padding: const EdgeInsets.fromLTRB(20, 50, 20, 20),
-            child: const TopSearchHeader(),
+            child: TopSearchHeader(
+              onChange: (data) => {
+                setState(() {
+                  keyword = data;
+                })
+              },
+            ),
           ),
-          const Expanded(child: ArticleList())
+          Expanded(
+              child: ArticleList(
+            category: keyword,
+          ))
         ],
       ),
     );

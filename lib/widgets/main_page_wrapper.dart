@@ -3,7 +3,9 @@ import 'package:material_app/widgets/bottom_bar.dart';
 
 class MainPageWrapper extends StatefulWidget {
   final Widget child;
-  const MainPageWrapper({Key? key, required this.child}) : super(key: key);
+  final bool hasBottom = true;
+  const MainPageWrapper({Key? key, bool? hasBottom, required this.child})
+      : super(key: key);
 
   @override
   _MainPageWrapperState createState() => _MainPageWrapperState();
@@ -14,7 +16,7 @@ class _MainPageWrapperState extends State<MainPageWrapper> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: widget.child,
-      bottomNavigationBar: const bottomBar(),
+      bottomNavigationBar: widget.hasBottom ? const bottomBar() : null,
       floatingActionButtonLocation:
           FloatingActionButtonLocation.miniCenterDocked,
       floatingActionButton: FloatingActionButton(

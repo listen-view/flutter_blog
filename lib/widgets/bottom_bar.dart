@@ -26,7 +26,7 @@ class bottomBarState extends State<bottomBar> {
     {'icon': Icons.home, 'path': '/home', 'title': '首页'},
     {'icon': Icons.category, 'path': '/categories', 'title': '分类'},
     {'icon': Icons.list, 'path': '/common_list', 'title': '列表'},
-    {'icon': Icons.settings, 'path': '/user_profile', 'title': '设置'}
+    {'icon': Icons.settings, 'path': '/login', 'title': '设置'}
   ];
 
   void _handleBarClick(int i) {

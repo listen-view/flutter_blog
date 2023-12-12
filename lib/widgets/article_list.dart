@@ -3,11 +3,12 @@ import 'package:intl/intl.dart';
 import 'package:material_app/api/test.dart';
 
 class ArticleList extends StatefulWidget {
-  final String? category;
-  const ArticleList({Key? key, this.category}) : super(key: key);
+  final String category;
+
+  const ArticleList({Key? key, this.category = ''}) : super(key: key);
 
   @override
-  _ArticleListState createState() => _ArticleListState();
+  State<ArticleList> createState() => _ArticleListState();
 }
 
 class _ArticleListState extends State<ArticleList> {
@@ -16,10 +17,19 @@ class _ArticleListState extends State<ArticleList> {
   @override
   void initState() {
     super.initState();
+    _getArticleList();
+  }
 
+  @override
+  void didUpdateWidget(covariant ArticleList oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _getArticleList();
+  }
+
+  _getArticleList() {
     TestApi.getArticleList({'tag': widget.category}).then((value) {
-      print(value);
       setState(() {
+        articleList = [];
         articleList.addAll(value['data']);
       });
     });
@@ -34,7 +44,7 @@ class _ArticleListState extends State<ArticleList> {
         children: [
           Padding(
             padding: const EdgeInsets.only(bottom: 20),
-            child: Text(widget.category ?? '全部',
+            child: Text(widget.category == '' ? '全部' : widget.category,
                 style:
                     const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
           ),
@@ -59,17 +69,25 @@ class _ArticleListState extends State<ArticleList> {
                               width: 97,
                               height: 97,
                             )),
-                        title: Column(
+                        title: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text((item['tag'] as List).join(','),
+                            Text(
+                                (item['tag'].toList() as List)
+                                    .map((e) => e['content'])
+                                    .join(','),
                                 style: const TextStyle(
                                     color: Colors.grey, fontSize: 12)),
-                            Text(
-                              item['title'],
-                              maxLines: 1,
-                              style: const TextStyle(fontSize: 14),
-                            ),
+                            Expanded(
+                                flex: 1,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 12),
+                                  child: Text(
+                                    item['title'],
+                                    maxLines: 1,
+                                    style: const TextStyle(fontSize: 14),
+                                  ),
+                                ))
                           ],
                         ),
                         subtitle: Row(

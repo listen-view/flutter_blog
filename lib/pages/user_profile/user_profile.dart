@@ -11,6 +11,9 @@ class UserProfile extends StatefulWidget {
 class _UserProfileState extends State<UserProfile> {
   @override
   Widget build(BuildContext context) {
-    return const MainPageWrapper(child: Text(''));
+    return const MainPageWrapper(
+      hasBottom: false,
+      child: Text(''),
+    );
   }
 }

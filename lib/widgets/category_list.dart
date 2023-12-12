@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:material_app/api/test.dart';
 
 class CategoryList extends StatefulWidget {
   const CategoryList({Key? key, this.rowCount = 2}) : super(key: key);
@@ -9,14 +10,24 @@ class CategoryList extends StatefulWidget {
 }
 
 class _CategoryListState extends State<CategoryList> {
+  var _categories = [];
+
   void _goClassList() {
     Navigator.pushNamed(context, '/category_detail');
   }
 
   @override
+  void initState() {
+    super.initState();
+    TestApi.getCategories({}).then((res) {
+      _categories = res['data'];
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return GridView.builder(
-        itemCount: 10,
+        itemCount: _categories.length,
         physics: const AlwaysScrollableScrollPhysics(),
         shrinkWrap: true,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -29,24 +40,23 @@ class _CategoryListState extends State<CategoryList> {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(18),
               child: Container(
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                     image: DecorationImage(
                         fit: BoxFit.cover,
-                        image: NetworkImage(
-                            'https://img2.baidu.com/it/u=4155793158,2331455287&fm=253&fmt=auto&app=138&f=JPEG?w=750&h=500'))),
+                        image: NetworkImage(_categories[i]['cover']))),
                 padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-                child: const Column(
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '旅游',
-                      style: TextStyle(
+                      _categories[i]['content'],
+                      style: const TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
                           fontSize: 18),
                     ),
-                    Text('92条',
+                    const Text('92条',
                         style: TextStyle(color: Colors.white, fontSize: 14))
                   ],
                 ),

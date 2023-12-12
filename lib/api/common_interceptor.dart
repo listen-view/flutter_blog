@@ -6,13 +6,13 @@ class CommonInterceptor extends Interceptor {
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    // TODO: implement onRequest
+    //  implement onRequest
     handler.next(options);
   }
 
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
-    // TODO: implement onResponse
+    //  implement onResponse
     handler.next(response);
   }
 
@@ -22,7 +22,7 @@ class CommonInterceptor extends Interceptor {
     if (code != null && code >= 400 && code < 500) {
       LocalStorage.remove('access_token');
     }
-    // TODO: implement onError
+    //  implement onError
     handler.next(err);
   }
 }

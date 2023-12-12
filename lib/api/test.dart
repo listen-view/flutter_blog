@@ -5,7 +5,7 @@ import './index.dart';
 
 class TestApi {
   static final HttpRequest _api = HttpRequest(BaseOptions(
-    baseUrl: 'http://192.168.1.6:3000',
+    baseUrl: 'http://192.118.118.168:3000',
     connectTimeout: const Duration(seconds: 50),
     receiveTimeout: const Duration(seconds: 50),
   ));
@@ -47,5 +47,9 @@ class TestApi {
 
   static Future<dynamic> getArticleDetail(Map<String, dynamic> data) async {
     return await get('/posts/detail', data);
+  }
+
+  static Future<dynamic> getCategories(Map<String, dynamic> data) async {
+    return await get('/tag', data);
   }
 }

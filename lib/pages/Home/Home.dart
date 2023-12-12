@@ -57,7 +57,9 @@ class _homeState extends State<Home> {
           child: ListView(
             children: [
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                const TopSearchHeader(),
+                TopSearchHeader(
+                  onChange: (data) => {},
+                ),
                 Container(
                   margin: const EdgeInsets.only(top: 20),
                   height: 60,

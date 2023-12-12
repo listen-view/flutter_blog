@@ -5,11 +5,10 @@ import 'package:material_app/api/test.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
 
 class ArticleDetail extends StatefulWidget {
-  final arguments;
-  const ArticleDetail({Key? key, this.arguments}) : super(key: key);
+  const ArticleDetail({Key? key}) : super(key: key);
 
   @override
-  _ArticleDetailState createState() => _ArticleDetailState();
+  State<ArticleDetail> createState() => _ArticleDetailState();
 }
 
 class _ArticleDetailState extends State<ArticleDetail> {
@@ -17,9 +16,14 @@ class _ArticleDetailState extends State<ArticleDetail> {
   final quill.QuillController _controller = quill.QuillController.basic();
 
   @override
-  void initState() {
-    super.initState();
-    TestApi.getArticleDetail({'id': widget.arguments['id']}).then((value) {
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final dynamic route = ModalRoute.of(context)?.settings.arguments;
+    if (route['id'] is int) _getArticleDetail(route['id']);
+  }
+
+  _getArticleDetail(int id) {
+    TestApi.getArticleDetail({'id': id}).then((value) {
       setState(() {
         articleMsg = value['data'];
         _controller.document =
