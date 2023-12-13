@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:material_app/model/article_detail.dart';
 import 'package:material_app/utils/storage.dart';
 
 import './index.dart';
@@ -45,8 +46,9 @@ class TestApi {
     return await get('/posts', data);
   }
 
-  static Future<dynamic> getArticleDetail(Map<String, dynamic> data) async {
-    return await get('/posts/detail', data);
+  static Future<ArticleModel> getArticleDetail(
+      Map<String, dynamic> data) async {
+    return ArticleModel.fromJson(await get('/posts/detail', data));
   }
 
   static Future<dynamic> getCategories(Map<String, dynamic> data) async {

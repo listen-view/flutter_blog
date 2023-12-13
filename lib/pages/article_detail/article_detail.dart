@@ -3,17 +3,18 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:material_app/api/test.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
+import 'package:material_app/model/article_detail.dart';
 
 class ArticleDetail extends StatefulWidget {
-  dynamic arguments;
-  ArticleDetail({Key? key, this.arguments}) : super(key: key);
+  final dynamic arguments;
+  const ArticleDetail({Key? key, this.arguments}) : super(key: key);
 
   @override
   State<ArticleDetail> createState() => _ArticleDetailState();
 }
 
 class _ArticleDetailState extends State<ArticleDetail> {
-  var articleMsg = {};
+  ArticleModel? articleMsg;
   final quill.QuillController _controller = quill.QuillController.basic();
 
   @override
@@ -27,9 +28,9 @@ class _ArticleDetailState extends State<ArticleDetail> {
   _getArticleDetail(int id) {
     TestApi.getArticleDetail({'id': id}).then((value) {
       setState(() {
-        articleMsg = value['data'];
+        articleMsg = value;
         _controller.document =
-            quill.Document.fromJson(jsonDecode(articleMsg['content']));
+            quill.Document.fromJson(jsonDecode(articleMsg?.content ?? ''));
       });
     });
   }
@@ -46,10 +47,10 @@ class _ArticleDetailState extends State<ArticleDetail> {
         ),
         centerTitle: true,
         backgroundColor: Colors.white,
-        title: Text(articleMsg['title'] ?? ''),
+        title: Text(articleMsg?.title ?? ''),
         titleTextStyle: const TextStyle(color: Colors.black, fontSize: 16),
       ),
-      body: articleMsg.isNotEmpty
+      body: articleMsg != null
           ? SingleChildScrollView(
               child: Column(children: [
                 Container(
@@ -58,7 +59,7 @@ class _ArticleDetailState extends State<ArticleDetail> {
                   decoration: BoxDecoration(
                       image: DecorationImage(
                           fit: BoxFit.cover,
-                          image: NetworkImage(articleMsg['cover']))),
+                          image: NetworkImage(articleMsg?.cover ?? ''))),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(20),
@@ -66,7 +67,7 @@ class _ArticleDetailState extends State<ArticleDetail> {
                     Container(
                       margin: const EdgeInsets.only(bottom: 20),
                       child: Text(
-                        articleMsg['author'],
+                        articleMsg?.author ?? '',
                         style: const TextStyle(
                             fontSize: 18, fontWeight: FontWeight.bold),
                       ),

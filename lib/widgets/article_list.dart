@@ -30,7 +30,7 @@ class _ArticleListState extends State<ArticleList> {
     TestApi.getArticleList({'tag': widget.category}).then((value) {
       setState(() {
         articleList = [];
-        articleList.addAll(value['data']);
+        articleList.addAll(value);
       });
     });
   }
