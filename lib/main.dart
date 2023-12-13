@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:material_app/provider/route_store.dart';
 import 'package:material_app/router.dart';
 import 'package:material_app/utils/storage.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => RouteStore(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -21,8 +28,36 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         // routes: routeList,
         title: 'Flutter Demo',
-        navigatorObservers: [RouterGuard()],
-        routes: routeList,
+        initialRoute: '/',
+        onGenerateRoute: (RouteSettings settings) {
+          final loginAndRegister = ['/login', '/register'];
+          return MaterialPageRoute(builder: (context) {
+            return FutureBuilder(
+                future: LocalStorage.get('access_token'),
+                builder: (context, snapshot) {
+                  String? routeName = settings.name;
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    if (snapshot.data != null) {
+                      if (loginAndRegister.contains(settings.name)) {
+                        routeName = '/';
+                      }
+                    } else if (!loginAndRegister.contains(settings.name)) {
+                      routeName = '/register';
+                    }
+                  }
+                  var routeStore = Provider.of<RouteStore>(context);
+                  routeStore.setRouteInfo(routeName!);
+                  if (settings.arguments != null) {
+                    return routeList[routeName]!(context,
+                        arguments: settings.arguments);
+                  } else {
+                    return routeList[routeName]!(
+                      context,
+                    );
+                  }
+                });
+          });
+        },
       ),
     );
   }

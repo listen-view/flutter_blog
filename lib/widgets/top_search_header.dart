@@ -5,7 +5,7 @@ class TopSearchHeader extends StatefulWidget {
   const TopSearchHeader({Key? key, required this.onChange}) : super(key: key);
 
   @override
-  _TopSearchHeaderState createState() => _TopSearchHeaderState();
+  State<TopSearchHeader> createState() => _TopSearchHeaderState();
 }
 
 class _TopSearchHeaderState extends State<TopSearchHeader> {

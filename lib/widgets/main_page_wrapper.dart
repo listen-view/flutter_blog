@@ -8,7 +8,7 @@ class MainPageWrapper extends StatefulWidget {
       : super(key: key);
 
   @override
-  _MainPageWrapperState createState() => _MainPageWrapperState();
+  State<MainPageWrapper> createState() => _MainPageWrapperState();
 }
 
 class _MainPageWrapperState extends State<MainPageWrapper> {
@@ -16,7 +16,7 @@ class _MainPageWrapperState extends State<MainPageWrapper> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: widget.child,
-      bottomNavigationBar: widget.hasBottom ? const bottomBar() : null,
+      bottomNavigationBar: widget.hasBottom ? const CustomBottomBar() : null,
       floatingActionButtonLocation:
           FloatingActionButtonLocation.miniCenterDocked,
       floatingActionButton: FloatingActionButton(

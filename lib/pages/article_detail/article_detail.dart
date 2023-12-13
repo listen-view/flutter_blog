@@ -5,7 +5,8 @@ import 'package:material_app/api/test.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
 
 class ArticleDetail extends StatefulWidget {
-  const ArticleDetail({Key? key}) : super(key: key);
+  dynamic arguments;
+  ArticleDetail({Key? key, this.arguments}) : super(key: key);
 
   @override
   State<ArticleDetail> createState() => _ArticleDetailState();
@@ -18,8 +19,9 @@ class _ArticleDetailState extends State<ArticleDetail> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    final dynamic route = ModalRoute.of(context)?.settings.arguments;
-    if (route['id'] is int) _getArticleDetail(route['id']);
+    if (widget.arguments['id'] is int) {
+      _getArticleDetail(widget.arguments['id']);
+    }
   }
 
   _getArticleDetail(int id) {

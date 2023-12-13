@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:material_app/provider/route_store.dart';
+import 'package:provider/provider.dart';
 
-class bottomBar extends StatefulWidget {
-  const bottomBar({Key? key}) : super(key: key);
+class CustomBottomBar extends StatefulWidget {
+  const CustomBottomBar({Key? key}) : super(key: key);
 
   @override
-  bottomBarState createState() => bottomBarState();
+  BottomBarState createState() => BottomBarState();
 }
 
-class bottomBarState extends State<bottomBar> {
+class BottomBarState extends State<CustomBottomBar> {
   var tabIndex = 0;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     barList.asMap().forEach((i, element) {
-      if (element['path'] == ModalRoute.of(context)?.settings.name) {
+      var routeStore = Provider.of<RouteStore>(context);
+      if (element['path'] == routeStore.currentRoute) {
         setState(() {
           tabIndex = i;
         });
@@ -26,7 +29,7 @@ class bottomBarState extends State<bottomBar> {
     {'icon': Icons.home, 'path': '/home', 'title': '首页'},
     {'icon': Icons.category, 'path': '/categories', 'title': '分类'},
     {'icon': Icons.list, 'path': '/common_list', 'title': '列表'},
-    {'icon': Icons.settings, 'path': '/login', 'title': '设置'}
+    {'icon': Icons.settings, 'path': '/user_profile', 'title': '设置'}
   ];
 
   void _handleBarClick(int i) {
