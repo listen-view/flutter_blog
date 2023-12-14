@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:material_app/api/test.dart';
+import 'package:material_app/model/article_detail.dart';
 
 class ArticleList extends StatefulWidget {
   final String category;
@@ -12,7 +13,7 @@ class ArticleList extends StatefulWidget {
 }
 
 class _ArticleListState extends State<ArticleList> {
-  var articleList = [];
+  List<ArticleModel> articleList = [];
 
   @override
   void initState() {
@@ -58,24 +59,21 @@ class _ArticleListState extends State<ArticleList> {
                     return GestureDetector(
                       onTap: () {
                         Navigator.pushNamed(context, '/article_detail',
-                            arguments: {'id': item['id']});
+                            arguments: {'id': item.id});
                       },
                       child: ListTile(
                         contentPadding: const EdgeInsets.only(bottom: 20),
                         leading: ClipRRect(
                             borderRadius: BorderRadius.circular(12),
                             child: Image.network(
-                              item['cover'],
+                              item.cover,
                               width: 97,
                               height: 97,
                             )),
                         title: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                                (item['tag'].toList() as List)
-                                    .map((e) => e['content'])
-                                    .join(','),
+                            Text(item.tag.map((e) => e.content).join(','),
                                 style: const TextStyle(
                                     color: Colors.grey, fontSize: 12)),
                             Expanded(
@@ -83,7 +81,7 @@ class _ArticleListState extends State<ArticleList> {
                                 child: Padding(
                                   padding: const EdgeInsets.only(left: 12),
                                   child: Text(
-                                    item['title'],
+                                    item.title,
                                     maxLines: 1,
                                     style: const TextStyle(fontSize: 14),
                                   ),
@@ -103,10 +101,10 @@ class _ArticleListState extends State<ArticleList> {
                             ),
                             Container(
                               margin: const EdgeInsets.fromLTRB(10, 0, 20, 0),
-                              child: Text(item['author']),
+                              child: Text(item.author),
                             ),
                             Text(DateFormat('yyyy年MM月dd日 HH:mm')
-                                .format(DateTime.parse(item['updateTime'])))
+                                .format(DateTime.parse(item.createTime)))
                           ],
                         ),
                       ),

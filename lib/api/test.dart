@@ -42,8 +42,12 @@ class TestApi {
     return await post('/posts', data);
   }
 
-  static Future<dynamic> getArticleList(Map<String, dynamic> data) async {
-    return await get('/posts', data);
+  static Future<List<ArticleModel>> getArticleList(
+      Map<String, dynamic> data) async {
+    var list = await get('/posts', data);
+    return (list as Iterable<dynamic>).map((e) {
+      return ArticleModel.fromJson(e);
+    }).toList();
   }
 
   static Future<ArticleModel> getArticleDetail(

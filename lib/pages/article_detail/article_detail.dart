@@ -72,6 +72,9 @@ class _ArticleDetailState extends State<ArticleDetail> {
                             fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                     ),
+                    Text(articleMsg != null
+                        ? articleMsg!.tag.map((e) => e.content).join(',')
+                        : ''),
                     quill.QuillEditor.basic(
                       controller: _controller,
                       readOnly: true,

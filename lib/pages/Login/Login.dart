@@ -6,10 +6,10 @@ class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
 
   @override
-  _loginState createState() => _loginState();
+  State<Login> createState() => _LoginState();
 }
 
-class _loginState extends State<Login> {
+class _LoginState extends State<Login> {
   final _formKey = GlobalKey<FormState>();
   final _formData = {'username': '', 'password': ''};
   void _submit() async {
@@ -18,7 +18,7 @@ class _loginState extends State<Login> {
       final routeContext = Navigator.of(context);
 
       final data = await TestApi.login(_formData);
-      await LocalStorage.set('access_token', data['data']['access_token']);
+      await LocalStorage.set('access_token', data['access_token']);
 
       saveContext.showSnackBar(const SnackBar(content: Text('login success!')));
       routeContext.pushNamed('/tags');
