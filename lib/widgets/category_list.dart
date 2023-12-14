@@ -1,27 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:material_app/api/test.dart';
+import 'package:material_app/model/tag.dart';
 
 class CategoryList extends StatefulWidget {
-  const CategoryList({Key? key, this.rowCount = 2}) : super(key: key);
+  const CategoryList({Key? key, this.keyword = '', this.rowCount = 2})
+      : super(key: key);
   final int rowCount;
+  final String keyword;
 
   @override
-  _CategoryListState createState() => _CategoryListState();
+  State<CategoryList> createState() => _CategoryListState();
 }
 
 class _CategoryListState extends State<CategoryList> {
-  var _categories = [];
+  List<TagModel> _categories = [];
 
-  void _goClassList() {
-    Navigator.pushNamed(context, '/category_detail');
+  void _goClassList(String content) {
+    Navigator.pushNamed(context, '/category_detail',
+        arguments: {'keyword': content});
   }
 
   @override
   void initState() {
     super.initState();
-    TestApi.getCategories({}).then((res) {
-      _categories = res['data'];
+    _getCategories();
+  }
+
+  _getCategories() {
+    TestApi.getCategories({'keyword': widget.keyword}).then((res) {
+      setState(() {
+        _categories = [];
+        _categories.addAll(res);
+      });
     });
+  }
+
+  @override
+  void didUpdateWidget(covariant CategoryList old) {
+    super.didUpdateWidget(old);
+    _getCategories();
   }
 
   @override
@@ -36,28 +53,29 @@ class _CategoryListState extends State<CategoryList> {
             crossAxisSpacing: 20),
         itemBuilder: (context, i) {
           return GestureDetector(
-            onTap: _goClassList,
+            onTap: () => _goClassList(_categories[i].content),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(18),
               child: Container(
                 decoration: BoxDecoration(
                     image: DecorationImage(
                         fit: BoxFit.cover,
-                        image: NetworkImage(_categories[i]['cover']))),
+                        image: NetworkImage(_categories[i].cover))),
                 padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      _categories[i]['content'],
+                      _categories[i].content,
                       style: const TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
                           fontSize: 18),
                     ),
-                    const Text('92条',
-                        style: TextStyle(color: Colors.white, fontSize: 14))
+                    Text("${_categories[i].postCount}条",
+                        style:
+                            const TextStyle(color: Colors.white, fontSize: 14))
                   ],
                 ),
               ),

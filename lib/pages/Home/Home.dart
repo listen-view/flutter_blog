@@ -1,8 +1,10 @@
-import 'dart:math';
 import 'dart:ui';
-
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:card_swiper/card_swiper.dart';
+import 'package:material_app/api/test.dart';
+import 'package:material_app/model/article_detail.dart';
+import 'package:material_app/model/tag.dart';
 import 'package:material_app/widgets/category_list.dart';
 import 'package:material_app/widgets/main_page_wrapper.dart';
 import 'package:material_app/widgets/top_search_header.dart';
@@ -11,42 +13,38 @@ class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
 
   @override
-  _homeState createState() => _homeState();
+  State<Home> createState() => _HomeState();
 }
 
-class _homeState extends State<Home> {
-  var tabIndex = 0;
+class _HomeState extends State<Home> {
   var tagIndex = 0;
 
-  final hotArticleList = [
-    {
-      'url':
-          'https://p1-q.mafengwo.net/s13/M00/19/88/wKgEaVyGDw6AEZgUABWlpfCuucI72.jpeg?imageMogr2%2Fthumbnail%2F%21690x450r%2Fgravity%2FCenter%2Fcrop%2F%21690x450%2Fquality%2F90%7Cwatermark%2F1%2Fimage%2FaHR0cDovL21mdy1mYXN0ZGZzLTEyNTgyOTUzNjUuY29zLmFwLWJlaWppbmcubXlxY2xvdWQuY29tL3MxMS9NMDAvNDQvOUIvd0tnQkVGc1A1UnlBRHY3cEFBQUhaWlVQUmxROTkwLnBuZw%3D%3D%2Fgravity%2FSouthEast%2Fdx%2F10%2Fdy%2F11',
-    },
-    {
-      'url':
-          'https://p1-q.mafengwo.net/s12/M00/E9/B7/wKgED1wMyFKACwElAA4Hn3YpZC894.jpeg?imageMogr2%2Fthumbnail%2F%21690x450r%2Fgravity%2FCenter%2Fcrop%2F%21690x450%2Fquality%2F90%7Cwatermark%2F1%2Fimage%2FaHR0cDovL21mdy1mYXN0ZGZzLTEyNTgyOTUzNjUuY29zLmFwLWJlaWppbmcubXlxY2xvdWQuY29tL3MxMS9NMDAvNDQvOUIvd0tnQkVGc1A1UnlBRHY3cEFBQUhaWlVQUmxROTkwLnBuZw%3D%3D%2Fgravity%2FSouthEast%2Fdx%2F10%2Fdy%2F11'
-    },
-    {
-      'url':
-          'https://p1-q.mafengwo.net/s11/M00/AB/7C/wKgBEFtEe0-AIa8TAA03Ca87tYQ73.jpeg?imageMogr2%2Fthumbnail%2F%21690x450r%2Fgravity%2FCenter%2Fcrop%2F%21690x450%2Fquality%2F90%7Cwatermark%2F1%2Fimage%2FaHR0cDovL21mdy1mYXN0ZGZzLTEyNTgyOTUzNjUuY29zLmFwLWJlaWppbmcubXlxY2xvdWQuY29tL3MxMS9NMDAvNDQvOUIvd0tnQkVGc1A1UnlBRHY3cEFBQUhaWlVQUmxROTkwLnBuZw%3D%3D%2Fgravity%2FSouthEast%2Fdx%2F10%2Fdy%2F11'
-    },
-  ];
+  List<ArticleModel> hotArticleList = [];
 
-  final categories = [
-    'all',
-    'travel',
-    'animals',
-    'all',
-    'travel',
-    'animals',
-    'all',
-    'travel',
-    'animals',
-    'all',
-    'travel',
-    'animals',
-  ];
+  List<TagModel> categories = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _queryCategories();
+  }
+
+  _queryCategories() {
+    TestApi.getCategories({}).then((value) {
+      setState(() {
+        categories = value;
+      });
+      _getHotArticleByTag();
+    });
+  }
+
+  void _getHotArticleByTag() {
+    TestApi.getHotArticle({'tag': categories[tagIndex].content}).then((value) {
+      setState(() {
+        hotArticleList = value;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,11 +82,12 @@ class _homeState extends State<Home> {
                                   setState(() {
                                     tagIndex = index;
                                   });
+                                  _getHotArticleByTag();
                                 },
                                 child: Column(
                                   children: [
                                     Text(
-                                      categories[index],
+                                      categories[index].content,
                                       style: TextStyle(
                                           fontSize: 14,
                                           color: tagIndex == index
@@ -116,8 +115,7 @@ class _homeState extends State<Home> {
                         children: [
                           ClipRRect(
                             borderRadius: BorderRadius.circular(15),
-                            child: Image.network(
-                                hotArticleList[index]['url'] as String),
+                            child: Image.network(hotArticleList[index].cover),
                           ),
                           Positioned(
                               child: Container(

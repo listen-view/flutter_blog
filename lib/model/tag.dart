@@ -7,8 +7,9 @@ class TagModel {
   String cover;
   String content;
   int id;
+  int? postCount;
   String createTime;
-  TagModel(this.cover, this.content, this.createTime, this.id);
+  TagModel(this.cover, this.postCount, this.content, this.createTime, this.id);
 
   factory TagModel.fromJson(Map<String, dynamic> json) =>
       _$TagModelFromJson(json);

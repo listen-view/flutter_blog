@@ -11,9 +11,7 @@ class Categories extends StatefulWidget {
 }
 
 class CategoriesState extends State<Categories> {
-  void _goClassList() {
-    Navigator.pushNamed(context, '/category_detail');
-  }
+  String keyword = '';
 
   @override
   Widget build(context) {
@@ -24,7 +22,11 @@ class CategoriesState extends State<Categories> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TopSearchHeader(
-              onChange: (data) => {},
+              onChange: (data) {
+                setState(() {
+                  keyword = data;
+                });
+              },
             ),
             Container(
               margin: const EdgeInsets.only(top: 20),
@@ -37,7 +39,11 @@ class CategoriesState extends State<Categories> {
                     color: Colors.black),
               ),
             ),
-            const Expanded(flex: 1, child: CategoryList())
+            Expanded(
+                flex: 1,
+                child: CategoryList(
+                  keyword: keyword,
+                ))
           ],
         ),
       ),

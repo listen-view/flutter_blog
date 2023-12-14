@@ -22,6 +22,7 @@ class _ArticleDetailState extends State<ArticleDetail> {
     super.didChangeDependencies();
     if (widget.arguments['id'] is int) {
       _getArticleDetail(widget.arguments['id']);
+      _increaseReadCount();
     }
   }
 
@@ -33,6 +34,10 @@ class _ArticleDetailState extends State<ArticleDetail> {
             quill.Document.fromJson(jsonDecode(articleMsg?.content ?? ''));
       });
     });
+  }
+
+  _increaseReadCount() {
+    TestApi.increaseRead({'id': widget.arguments['id']}).then((value) => null);
   }
 
   @override

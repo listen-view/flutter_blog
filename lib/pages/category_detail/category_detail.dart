@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:material_app/widgets/article_list.dart';
 
 class CategoryDetail extends StatefulWidget {
-  const CategoryDetail({Key? key}) : super(key: key);
+  final dynamic arguments;
+  const CategoryDetail({Key? key, this.arguments}) : super(key: key);
 
   @override
   _CategoryDetailState createState() => _CategoryDetailState();
@@ -24,6 +25,8 @@ class _CategoryDetailState extends State<CategoryDetail> {
           title: const Text('文章列表'),
           titleTextStyle: const TextStyle(color: Colors.black, fontSize: 16),
         ),
-        body: const ArticleList());
+        body: ArticleList(
+            category:
+                widget.arguments != null ? widget.arguments['keyword'] : ''));
   }
 }

@@ -18,7 +18,9 @@ final routeList = {
   '/user_profile': (context, {arguments}) => const UserProfile(),
   '/categories': (context, {arguments}) => const Categories(),
   '/post_article': (context, {arguments}) => const PostArticle(),
-  '/category_detail': (context, {arguments}) => const CategoryDetail(),
+  '/category_detail': (context, {arguments}) => CategoryDetail(
+        arguments: arguments,
+      ),
   '/article_detail': (context, {arguments}) => ArticleDetail(
         arguments: arguments,
       ),

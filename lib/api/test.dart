@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:material_app/model/article_detail.dart';
+import 'package:material_app/model/tag.dart';
 import 'package:material_app/utils/storage.dart';
 
 import './index.dart';
@@ -55,7 +56,18 @@ class TestApi {
     return ArticleModel.fromJson(await get('/posts/detail', data));
   }
 
-  static Future<dynamic> getCategories(Map<String, dynamic> data) async {
-    return await get('/tag', data);
+  static Future<List<TagModel>> getCategories(Map<String, dynamic> data) async {
+    var list = await get('/tag', data);
+    return (list as Iterable).map((e) => TagModel.fromJson(e)).toList();
+  }
+
+  static Future<List<ArticleModel>> getHotArticle(
+      Map<String, dynamic> data) async {
+    var list = await get('/posts/hot', data);
+    return (list as Iterable).map((e) => ArticleModel.fromJson(e)).toList();
+  }
+
+  static Future<dynamic> increaseRead(Map<String, dynamic> data) async {
+    return await get('/posts/view', data);
   }
 }
